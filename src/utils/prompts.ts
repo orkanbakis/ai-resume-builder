@@ -1,17 +1,21 @@
-import type { Industry, JobLevel } from '@/types/resume'
+import type { Industry, JobLevel } from '@/types/resume';
 
 export const JOB_LEVEL_WRITING_GUIDANCE: Record<JobLevel, string> = {
   'Entry-level':
-    'Focus on learning, growth, foundational skills, and potential. Emphasize training completed, skills developed, internships, and eagerness to contribute. Use action verbs that show initiative.',
+    'Emphasize foundational skills, hands-on learning, and practical experience. Focus on technologies used, responsibilities handled, training or internships completed, and proactive contribution. Avoid leadership or ownership claims unless explicitly stated.',
+
   'Mid-level':
-    'Balance technical execution with emerging leadership. Show project ownership, collaboration, and measurable contributions. Highlight specific achievements and growth trajectory.',
+    'Highlight solid technical execution, ownership of components or features, and collaboration within a team. Focus on responsibilities, systems built or maintained, integrations handled, and reliability or quality improvements without exaggeration.',
+
   Senior:
-    'Emphasize expertise, mentorship, and significant project leadership. Demonstrate strategic thinking, innovation, and substantial impact on team/organization outcomes.',
+    'Emphasize deep technical expertise, architectural influence, mentorship, and ownership of complex systems. Highlight decision-making, system design contributions, cross-team collaboration, and long-term maintainability or scalability impact.',
+
   Manager:
-    'Focus on team leadership, resource management, and department-level impact. Include team size, budget responsibility, cross-functional collaboration, and organizational improvements.',
+    'Focus on people leadership, delivery ownership, and operational effectiveness. Highlight team coordination, prioritization, process improvement, and collaboration with stakeholders. Avoid technical depth unless explicitly present in the input.',
+
   Executive:
-    'Emphasize strategic vision, organizational transformation, P&L responsibility, and enterprise-level impact. Show board-level communication, stakeholder management, and long-term strategic outcomes.',
-}
+    'Emphasize strategic leadership, organizational direction, and business impact. Highlight decision-making scope, alignment with company objectives, stakeholder communication, and long-term outcomes without adding financial metrics unless provided.',
+};
 
 export const INDUSTRY_TERMINOLOGY: Record<Industry, string[]> = {
   Technology: [
@@ -104,8 +108,15 @@ export const INDUSTRY_TERMINOLOGY: Record<Industry, string[]> = {
     'client engagement',
     'best practices',
   ],
-  Other: ['delivered', 'managed', 'led', 'improved', 'developed', 'coordinated'],
-}
+  Other: [
+    'delivered',
+    'managed',
+    'led',
+    'improved',
+    'developed',
+    'coordinated',
+  ],
+};
 
 export function buildBulletPointPrompt(
   jobTitle: string,
@@ -114,33 +125,41 @@ export function buildBulletPointPrompt(
   industry: Industry,
   jobLevel: JobLevel
 ): string {
-  const levelGuidance = JOB_LEVEL_WRITING_GUIDANCE[jobLevel]
-  const industryTerms = INDUSTRY_TERMINOLOGY[industry] || INDUSTRY_TERMINOLOGY.Other
+  const levelGuidance = JOB_LEVEL_WRITING_GUIDANCE[jobLevel];
+  const industryTerms =
+    INDUSTRY_TERMINOLOGY[industry] || INDUSTRY_TERMINOLOGY.Other;
 
-  return `You are a professional resume writer. Generate 3-5 impactful bullet points for a resume based on the following information:
+  return `You are an expert resume writer. Your task is to convert the following user input into concise, professional, resume-ready bullet points.
 
-Job Title: ${jobTitle}
-Company: ${company}
-Industry: ${industry}
-Career Level: ${jobLevel}
+      User Input:
+        Job Title: ${jobTitle}
+        Company: ${company}
+        Industry: ${industry}
+        Career Level: ${jobLevel}
 
-User's description of responsibilities:
-${responsibilities}
+      User's description of responsibilities:
+      ${responsibilities}
 
-Writing Guidelines:
-- ${levelGuidance}
-- Use strong action verbs at the start of each bullet (e.g., Led, Developed, Implemented, Achieved)
-- Quantify achievements where possible (percentages, dollar amounts, team sizes, time saved)
-- Use ${industry}-appropriate terminology: ${industryTerms.slice(0, 5).join(', ')}
-- Keep each bullet to 1-2 lines (15-30 words)
-- Focus on impact and results, not just duties
-- Avoid generic phrases like "responsible for" or "duties included"
+      Writing Guidelines:
+      - ${levelGuidance}
+      - Use strong action verbs at the start of each bullet (e.g., Led, Developed, Implemented, Achieved)
+      - Quantify achievements where possible (percentages, dollar amounts, team sizes, time saved)
+      - Use ATS-friendly terminology
+      - Do not invent metrics or achievements
+      - Do not exaggerate seniority
+      - Keep each bullet to 1-2 lines (15-30 words)
+      - Focus on impact and results, not just duties
+      - Avoid generic phrases like "responsible for" or "duties included"
+      - Generate minimum 5 and maximum 7 bullet points
+      - Use ${industry}-appropriate terminology: ${industryTerms
+    .slice(0, 5)
+    .join(', ')}
+    
+      Return ONLY the bullet points, one per line, starting with a bullet character (•). Do not include any other text or explanation.
 
-Return ONLY the bullet points, one per line, starting with a bullet character (•). Do not include any other text or explanation.
-
-Example format:
-• Led cross-functional team of 8 engineers to deliver cloud migration project, reducing infrastructure costs by 35%
-• Developed automated testing framework that decreased QA cycle time by 50% and improved code coverage to 95%`
+      Example format:
+      • Led cross-functional team of 8 engineers to deliver cloud migration project, reducing infrastructure costs by 35%
+      • Developed automated testing framework that decreased QA cycle time by 50% and improved code coverage to 95%`;
 }
 
 export function buildProfessionalSummaryPrompt(
@@ -151,7 +170,7 @@ export function buildProfessionalSummaryPrompt(
   skills: string[],
   yearsExperience?: number
 ): string {
-  const levelGuidance = JOB_LEVEL_WRITING_GUIDANCE[jobLevel]
+  const levelGuidance = JOB_LEVEL_WRITING_GUIDANCE[jobLevel];
 
   return `You are a professional resume writer. Generate a concise professional summary (2-4 sentences, maximum 100 words) for a resume.
 
@@ -173,14 +192,17 @@ Writing Guidelines:
 Return ONLY the professional summary. Do not include any labels, headers, or explanations.
 
 Example:
-Results-driven software engineer with 5+ years of experience building scalable web applications. Proven track record of leading cross-functional teams and delivering high-impact projects that drive business growth. Expertise in React, Node.js, and cloud architecture with a passion for clean, maintainable code.`
+Results-driven software engineer with 5+ years of experience building scalable web applications. Proven track record of leading cross-functional teams and delivering high-impact projects that drive business growth. Expertise in React, Node.js, and cloud architecture with a passion for clean, maintainable code.`;
 }
 
 export function parseBulletPoints(text: string): string[] {
   return text
     .split('\n')
     .map((line) => line.trim())
-    .filter((line) => line.startsWith('•') || line.startsWith('-') || line.startsWith('*'))
+    .filter(
+      (line) =>
+        line.startsWith('•') || line.startsWith('-') || line.startsWith('*')
+    )
     .map((line) => line.replace(/^[•\-*]\s*/, ''))
-    .filter((line) => line.length > 0)
+    .filter((line) => line.length > 0);
 }
