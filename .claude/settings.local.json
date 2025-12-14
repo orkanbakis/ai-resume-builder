@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(./node_modules/.bin/tailwindcss:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "mcp__canva-dev__read-canva-app-ui-kit-index"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+export { ClassicTemplate } from './ClassicTemplate'
+export { ModernTemplate } from './ModernTemplate'
+export { CompactTemplate } from './CompactTemplate'
+export { ExecutiveTemplate } from './ExecutiveTemplate'
+export { CanvaTemplate } from './CanvaTemplate'

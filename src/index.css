@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* Custom theme configuration for Tailwind v4 */
+@theme {
+  /* Primary colors */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  /* Fonts */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+}
+
+/* Base styles */
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light theme (default) */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  --color-text: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-tertiary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-hover: #d1d5db;
+}
+
+/* Dark theme */
+.dark {
+  --color-bg: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-bg-tertiary: #374151;
+  --color-text: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-tertiary: #9ca3af;
+  --color-border: #374151;
+  --color-border-hover: #4b5563;
+}
+
+/* Apply theme colors */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Focus ring styles */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styles for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
