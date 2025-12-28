@@ -6,6 +6,21 @@ import {
   parseBulletPoints,
 } from '@/utils/prompts';
 
+// =============================================================================
+// SECURITY WARNING: Browser-side API calls
+// =============================================================================
+// This code runs in the browser, which means:
+// 1. The API key is visible to anyone using browser dev tools
+// 2. The key can be stolen and misused
+// 3. There's no server-side rate limiting
+//
+// TODO: For production, implement a backend API proxy:
+// - Create a server endpoint (e.g., /api/generate-bullets)
+// - Move the Anthropic client to the server
+// - Frontend calls your server, server calls Anthropic
+// - Keep ANTHROPIC_API_KEY as a server-only environment variable
+// =============================================================================
+
 // Initialize client - API key should be in environment variables
 // For local development, set VITE_ANTHROPIC_API_KEY in .env.local
 const getClient = () => {
@@ -16,7 +31,10 @@ const getClient = () => {
     );
   }
 
+  // WARNING: dangerouslyAllowBrowser exposes the API key to users
+  // This is acceptable for local development but NOT for production
   return new Anthropic({
+    dangerouslyAllowBrowser: true,
     apiKey,
   });
 };
