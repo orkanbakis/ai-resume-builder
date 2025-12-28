@@ -1,9 +1,11 @@
 export interface PersonalDetails {
   fullName: string
+  title?: string
   email: string
   phone: string
   location: string
   linkedIn?: string
+  website?: string
   professionalSummary?: string
 }
 
@@ -49,6 +51,13 @@ export interface Language {
   proficiency: 'Basic' | 'Conversational' | 'Professional' | 'Native'
 }
 
+export interface Award {
+  id: string
+  name: string
+  issuer?: string
+  date?: string
+}
+
 export type Industry =
   | 'Technology'
   | 'Finance'
@@ -70,7 +79,7 @@ export type JobLevel =
   | 'Manager'
   | 'Executive'
 
-export type TemplateId = 'classic' | 'modern' | 'compact' | 'executive' | 'canva'
+export type TemplateId = 'heritage' | 'clarity' | 'impact' | 'precision' | 'executive-edge'
 
 export interface ResumeData {
   personalDetails: PersonalDetails
@@ -82,6 +91,7 @@ export interface ResumeData {
   certifications: Certification[]
   languages: Language[]
   projects: Project[]
+  awards: Award[]
   selectedTemplate: TemplateId
 }
 

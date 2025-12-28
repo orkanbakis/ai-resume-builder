@@ -1,57 +1,15 @@
 import { z } from 'zod';
 
-// Custom validators
-const phoneRegex =
-  /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
-const nameRegex = /^[a-zA-Z\s\-'\.]+$/;
-const linkedInRegex =
-  /^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub|company)\/[a-zA-Z0-9-]+\/?$/;
-
 export const personalDetailsSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(100, 'Name must not exceed 100 characters')
-    .regex(
-      nameRegex,
-      'Name can only contain letters, spaces, hyphens, apostrophes, and periods'
-    )
-    .refine(
-      (name) => name.trim().split(/\s+/).length >= 2,
-      'Please enter both first and last name'
-    ),
-  email: z
-    .email('Invalid email address')
-    .min(1, 'Email is required')
-    .max(100, 'Email must not exceed 100 characters')
-    .toLowerCase(),
-  phone: z
-    .string()
-    .min(10, 'Phone number must be at least 10 characters')
-    .max(20, 'Phone number must not exceed 20 characters')
-    .regex(phoneRegex, 'Invalid phone number format'),
-  location: z
-    .string()
-    .min(2, 'Location is required')
-    .max(100, 'Location must not exceed 100 characters')
-    .refine((loc) => loc.trim().length >= 2, 'Please enter a valid location'),
-  linkedIn: z
-    .string()
-    .optional()
-    .or(z.literal(''))
-    .refine(
-      (url) => !url || url === '' || linkedInRegex.test(url),
-      'Please enter a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)'
-    ),
+  fullName: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.email('Invalid email address'),
+  phone: z.string().min(10, 'Phone number must be at least 10 characters'),
+  location: z.string().min(2, 'Location is required'),
+  linkedIn: z.url('Invalid LinkedIn URL').optional().or(z.literal('')),
   professionalSummary: z
     .string()
     .max(500, 'Summary must be under 500 characters')
-    .optional()
-    .refine(
-      (summary) =>
-        !summary || summary.trim().length === 0 || summary.trim().length >= 20,
-      'Professional summary should be at least 20 characters if provided'
-    ),
+    .optional(),
 });
 
 export const industryJobLevelSchema = z.object({
