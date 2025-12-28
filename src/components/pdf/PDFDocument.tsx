@@ -1,6 +1,12 @@
 import { Document, Page, StyleSheet } from '@react-pdf/renderer'
 import type { ResumeData, TemplateId } from '@/types/resume'
-import { ClassicTemplate, ModernTemplate, CompactTemplate, ExecutiveTemplate, CanvaTemplate } from './templates'
+import {
+  HeritageTemplate,
+  ClarityTemplate,
+  ImpactTemplate,
+  PrecisionTemplate,
+  ExecutiveEdgeTemplate,
+} from './templates'
 
 interface PDFDocumentProps {
   data: ResumeData
@@ -8,12 +14,13 @@ interface PDFDocumentProps {
   templateId: TemplateId
 }
 
+// Map template IDs to their components
 const templates = {
-  classic: ClassicTemplate,
-  modern: ModernTemplate,
-  compact: CompactTemplate,
-  executive: ExecutiveTemplate,
-  canva: CanvaTemplate,
+  heritage: HeritageTemplate,
+  clarity: ClarityTemplate,
+  impact: ImpactTemplate,
+  precision: PrecisionTemplate,
+  'executive-edge': ExecutiveEdgeTemplate,
 }
 
 export function ResumePDFDocument({ data, aiBullets, templateId }: PDFDocumentProps) {

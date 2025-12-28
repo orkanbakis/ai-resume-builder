@@ -211,10 +211,10 @@ describe('Resume Store', () => {
   describe('Template Selection', () => {
     it('should set selected template', () => {
       const store = useResumeStore.getState()
-      store.setTemplate('executive')
+      store.setTemplate('executive-edge')
 
       const state = useResumeStore.getState()
-      expect(state.selectedTemplate).toBe('executive')
+      expect(state.selectedTemplate).toBe('executive-edge')
     })
   })
 
@@ -317,14 +317,14 @@ describe('Resume Store', () => {
         responsibilities: 'Work',
         bullets: [],
       })
-      store.setTemplate('classic')
+      store.setTemplate('heritage')
 
       store.reset()
 
       const state = useResumeStore.getState()
       expect(state.personalDetails.fullName).toBe('')
       expect(state.workExperience).toHaveLength(0)
-      expect(state.selectedTemplate).toBe('modern')
+      expect(state.selectedTemplate).toBe('clarity')
     })
   })
 })

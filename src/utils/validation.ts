@@ -2,10 +2,10 @@ import { z } from 'zod'
 
 export const personalDetailsSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  email: z.email('Invalid email address'),
   phone: z.string().min(10, 'Phone number must be at least 10 characters'),
   location: z.string().min(2, 'Location is required'),
-  linkedIn: z.string().url('Invalid LinkedIn URL').optional().or(z.literal('')),
+  linkedIn: z.url('Invalid LinkedIn URL').optional().or(z.literal('')),
   professionalSummary: z.string().max(500, 'Summary must be under 500 characters').optional(),
 })
 
@@ -73,7 +73,7 @@ export const projectSchema = z.object({
   id: z.string(),
   name: z.string().min(1, 'Project name is required'),
   description: z.string().min(10, 'Please provide a brief description'),
-  url: z.string().url('Invalid URL').optional().or(z.literal('')),
+  url: z.url('Invalid URL').optional().or(z.literal('')),
 })
 
 export const optionalSectionsSchema = z.object({

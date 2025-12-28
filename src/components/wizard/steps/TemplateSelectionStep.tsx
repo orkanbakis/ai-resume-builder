@@ -88,131 +88,129 @@ export function TemplateSelectionStep() {
   )
 }
 
-// Simple template previews using CSS
+// Simple template previews using CSS - Visual mockups that match the PDF templates
 function TemplatePreview({ templateId }: { templateId: TemplateId }) {
   const previewStyles: Record<TemplateId, React.ReactNode> = {
-    classic: (
-      <div className="w-4/5 h-4/5 bg-white shadow-sm p-4 text-left">
-        <div className="h-3 w-1/2 bg-gray-800 mb-2" />
-        <div className="h-2 w-3/4 bg-gray-300 mb-4" />
-        <div className="border-t border-gray-300 pt-2 mb-3">
-          <div className="h-2 w-1/4 bg-gray-700 mb-1" />
-          <div className="h-1.5 w-full bg-gray-200 mb-1" />
-          <div className="h-1.5 w-5/6 bg-gray-200 mb-1" />
-          <div className="h-1.5 w-4/5 bg-gray-200" />
-        </div>
-        <div className="border-t border-gray-300 pt-2">
-          <div className="h-2 w-1/4 bg-gray-700 mb-1" />
-          <div className="h-1.5 w-full bg-gray-200 mb-1" />
-          <div className="h-1.5 w-3/4 bg-gray-200" />
-        </div>
-      </div>
-    ),
-    modern: (
-      <div className="w-4/5 h-4/5 bg-white shadow-sm p-4 text-left">
+    // Heritage - Classic/Traditional with serif feel and gold accents
+    heritage: (
+      <div className="w-4/5 h-4/5 bg-white shadow-sm p-4 text-left font-serif">
+        {/* Centered header with gold accent line */}
         <div className="text-center mb-3">
-          <div className="h-3 w-1/2 bg-gray-800 mx-auto mb-1" />
+          <div className="h-3 w-1/2 bg-gray-900 mx-auto mb-1" />
+          <div className="h-0.5 w-1/4 bg-amber-700 mx-auto mb-2" />
           <div className="h-1.5 w-2/3 bg-gray-300 mx-auto" />
-          <div className="h-0.5 w-1/3 bg-primary-500 mx-auto mt-2" />
         </div>
-        <div className="mb-3">
-          <div className="h-2 w-1/4 bg-gray-700 mb-1 uppercase" style={{ letterSpacing: '1px' }} />
+        {/* Section with gold underline */}
+        <div className="mb-2">
+          <div className="h-2 w-1/4 bg-gray-800 mb-1 border-b border-amber-700 pb-1" />
           <div className="h-1.5 w-full bg-gray-200 mb-1" />
           <div className="h-1.5 w-5/6 bg-gray-200" />
         </div>
         <div>
-          <div className="h-2 w-1/4 bg-gray-700 mb-1 uppercase" style={{ letterSpacing: '1px' }} />
+          <div className="h-2 w-1/4 bg-gray-800 mb-1 border-b border-amber-700 pb-1" />
           <div className="h-1.5 w-full bg-gray-200 mb-1" />
-          <div className="h-1.5 w-4/5 bg-gray-200" />
-        </div>
-      </div>
-    ),
-    compact: (
-      <div className="w-4/5 h-4/5 bg-white shadow-sm p-3 text-left flex gap-3">
-        <div className="w-1/3 border-r border-gray-200 pr-3">
-          <div className="h-2.5 w-full bg-gray-800 mb-2" />
-          <div className="h-1.5 w-full bg-gray-300 mb-1" />
-          <div className="h-1.5 w-3/4 bg-gray-300 mb-3" />
-          <div className="h-2 w-1/2 bg-gray-600 mb-1" />
-          <div className="h-1 w-full bg-gray-200 mb-0.5" />
-          <div className="h-1 w-full bg-gray-200 mb-0.5" />
-          <div className="h-1 w-3/4 bg-gray-200" />
-        </div>
-        <div className="flex-1">
-          <div className="mb-2">
-            <div className="h-2 w-1/3 bg-gray-700 mb-1" />
-            <div className="h-1 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-5/6 bg-gray-200 mb-0.5" />
-            <div className="h-1 w-4/5 bg-gray-200" />
-          </div>
-          <div>
-            <div className="h-2 w-1/3 bg-gray-700 mb-1" />
-            <div className="h-1 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-3/4 bg-gray-200" />
-          </div>
-        </div>
-      </div>
-    ),
-    executive: (
-      <div className="w-4/5 h-4/5 bg-white shadow-sm p-6 text-left">
-        <div className="mb-6">
-          <div className="h-4 w-2/3 bg-gray-800 mb-2" />
-          <div className="h-2 w-1/2 bg-gray-400" />
-        </div>
-        <div className="mb-6">
-          <div className="h-2 w-1/4 bg-gray-600 mb-2" />
-          <div className="h-1.5 w-full bg-gray-200 mb-1.5" />
-          <div className="h-1.5 w-5/6 bg-gray-200 mb-1.5" />
-          <div className="h-1.5 w-4/5 bg-gray-200" />
-        </div>
-        <div>
-          <div className="h-2 w-1/4 bg-gray-600 mb-2" />
-          <div className="h-1.5 w-full bg-gray-200 mb-1.5" />
           <div className="h-1.5 w-3/4 bg-gray-200" />
         </div>
       </div>
     ),
-    canva: (
-      <div className="w-4/5 h-4/5 bg-white shadow-sm p-3 text-left">
-        {/* Header with name and contact */}
-        <div className="flex justify-between mb-3">
-          <div>
-            <div className="h-3 w-16 bg-gray-400 mb-0.5" />
-            <div className="h-3 w-20 bg-gray-800" />
+
+    // Clarity - Modern/Minimalist with blue accent line
+    clarity: (
+      <div className="w-4/5 h-4/5 bg-white shadow-sm p-4 text-left">
+        {/* Left-aligned header with blue accent */}
+        <div className="mb-3">
+          <div className="h-4 w-1/2 bg-gray-900 mb-1" />
+          <div className="h-1.5 w-2/3 bg-gray-300 mb-2" />
+          <div className="h-0.5 w-12 bg-blue-500" />
+        </div>
+        {/* Section with light gray underline */}
+        <div className="mb-2">
+          <div className="h-2 w-1/4 bg-gray-700 mb-1 border-b border-gray-200 pb-1" />
+          <div className="flex gap-1 mb-1">
+            <div className="w-1 h-1 bg-blue-500 rounded-full mt-0.5 flex-shrink-0" />
+            <div className="h-1.5 flex-1 bg-gray-200" />
           </div>
-          <div className="space-y-1">
-            <div className="flex items-center gap-1 justify-end">
-              <div className="h-2 w-2 rounded-full bg-teal-400" />
-              <div className="h-1.5 w-12 bg-gray-300" />
-            </div>
-            <div className="flex items-center gap-1 justify-end">
-              <div className="h-2 w-2 rounded-full bg-teal-400" />
-              <div className="h-1.5 w-14 bg-gray-300" />
-            </div>
-            <div className="flex items-center gap-1 justify-end">
-              <div className="h-2 w-2 rounded-full bg-teal-400" />
-              <div className="h-1.5 w-10 bg-gray-300" />
-            </div>
+          <div className="flex gap-1">
+            <div className="w-1 h-1 bg-blue-500 rounded-full mt-0.5 flex-shrink-0" />
+            <div className="h-1.5 w-5/6 bg-gray-200" />
           </div>
         </div>
-        {/* Two column body */}
-        <div className="flex gap-3">
-          <div className="w-1/3">
-            <div className="h-2 w-3/4 bg-gray-700 mb-1" />
-            <div className="h-1 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-3/4 bg-gray-200 mb-2" />
-            <div className="h-2 w-1/2 bg-gray-700 mb-1" />
-            <div className="h-1 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-full bg-gray-200" />
-          </div>
-          <div className="flex-1">
-            <div className="h-2 w-1/3 bg-gray-700 mb-1" />
-            <div className="h-1.5 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-5/6 bg-gray-200 mb-0.5" />
-            <div className="h-1 w-4/5 bg-gray-200 mb-2" />
-            <div className="h-1.5 w-full bg-gray-200 mb-0.5" />
-            <div className="h-1 w-3/4 bg-gray-200" />
-          </div>
+        <div>
+          <div className="h-2 w-1/4 bg-gray-700 mb-1 border-b border-gray-200 pb-1" />
+          <div className="h-1.5 w-full bg-gray-200" />
+        </div>
+      </div>
+    ),
+
+    // Impact - Creative with teal sidebar
+    impact: (
+      <div className="w-4/5 h-4/5 bg-white shadow-sm flex">
+        {/* Teal sidebar */}
+        <div className="w-1/3 bg-teal-600 p-2">
+          <div className="h-2.5 w-full bg-white/90 mb-1" />
+          <div className="h-1.5 w-3/4 bg-white/60 mb-3" />
+          <div className="h-1.5 w-1/2 bg-white/80 mb-1 border-b border-white/30 pb-1" />
+          <div className="h-1 w-full bg-white/50 mb-0.5" />
+          <div className="h-1 w-3/4 bg-white/50 mb-2" />
+          <div className="h-1.5 w-1/2 bg-white/80 mb-1 border-b border-white/30 pb-1" />
+          <div className="h-1 w-full bg-white/50 mb-0.5" />
+          <div className="h-1 w-full bg-white/50" />
+        </div>
+        {/* Main content */}
+        <div className="flex-1 p-2">
+          <div className="h-2 w-1/3 bg-teal-600 mb-1 border-b border-gray-200 pb-1" />
+          <div className="h-1.5 w-full bg-gray-200 mb-0.5" />
+          <div className="h-1.5 w-5/6 bg-gray-200 mb-2" />
+          <div className="h-2 w-1/3 bg-teal-600 mb-1 border-b border-gray-200 pb-1" />
+          <div className="h-1.5 w-full bg-gray-200 mb-0.5" />
+          <div className="h-1.5 w-4/5 bg-gray-200" />
+        </div>
+      </div>
+    ),
+
+    // Precision - ATS-friendly, simple black and white
+    precision: (
+      <div className="w-4/5 h-4/5 bg-white shadow-sm p-4 text-left">
+        {/* Simple header */}
+        <div className="mb-3">
+          <div className="h-3 w-2/5 bg-black mb-1" />
+          <div className="h-1.5 w-3/4 bg-gray-400" />
+        </div>
+        {/* Simple sections with black underlines */}
+        <div className="border-t border-black pt-2 mb-2">
+          <div className="h-2 w-1/4 bg-black mb-1" />
+          <div className="h-1.5 w-full bg-gray-300 mb-0.5" />
+          <div className="h-1.5 w-5/6 bg-gray-300" />
+        </div>
+        <div className="border-t border-black pt-2 mb-2">
+          <div className="h-2 w-1/4 bg-black mb-1" />
+          <div className="h-1.5 w-full bg-gray-300" />
+        </div>
+        <div className="border-t border-black pt-2">
+          <div className="h-2 w-1/5 bg-black mb-1" />
+          <div className="h-1.5 w-4/5 bg-gray-300" />
+        </div>
+      </div>
+    ),
+
+    // Executive Edge - Premium with gold accents
+    'executive-edge': (
+      <div className="w-4/5 h-4/5 bg-white shadow-sm p-5 text-left font-serif">
+        {/* Elegant centered header */}
+        <div className="text-center mb-4">
+          <div className="h-4 w-1/2 bg-gray-800 mx-auto mb-2" style={{ letterSpacing: '2px' }} />
+          <div className="h-0.5 w-1/4 bg-amber-700 mx-auto mb-2" />
+          <div className="h-1.5 w-1/2 bg-gray-300 mx-auto" />
+        </div>
+        {/* Section with gold accent */}
+        <div className="mb-3">
+          <div className="h-2 w-1/3 bg-gray-700 mb-1 border-b border-amber-600 pb-1" />
+          <div className="h-1.5 w-full bg-gray-200 mb-1" />
+          <div className="h-1.5 w-4/5 bg-gray-200" />
+        </div>
+        <div>
+          <div className="h-2 w-1/3 bg-gray-700 mb-1 border-b border-amber-600 pb-1" />
+          <div className="h-1.5 w-full bg-gray-200" />
         </div>
       </div>
     ),

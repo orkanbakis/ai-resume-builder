@@ -1,25 +1,31 @@
 import { View, Text, Link, StyleSheet } from '@react-pdf/renderer'
 import type { ResumeData } from '@/types/resume'
 
-interface ExecutiveTemplateProps {
+// Executive Edge Template - Executive/Leadership Style
+// Features: Refined serif typography, gold/bronze accents, generous whitespace
+// Best for: C-Suite, Directors, VPs, Senior leaders
+
+interface ExecutiveEdgeTemplateProps {
   data: ResumeData
   aiBullets: Record<string, string[]>
 }
 
-export function ExecutiveTemplate({ data, aiBullets }: ExecutiveTemplateProps) {
-  const { personalDetails, workExperience, education, skills, certifications, languages, projects } = data
+export function ExecutiveEdgeTemplate({ data, aiBullets }: ExecutiveEdgeTemplateProps) {
+  // Extract all the data we need from the resume
+  const { personalDetails, workExperience, education, skills, certifications, languages } = data
 
   return (
     <View style={styles.container}>
-      {/* Header Section - Elegant, spacious */}
+      {/* Header Section - Elegant centered layout */}
       <View style={styles.header}>
         <Text style={styles.name}>{personalDetails.fullName}</Text>
+        {personalDetails.title && <Text style={styles.title}>{personalDetails.title}</Text>}
         <View style={styles.headerDivider} />
         <View style={styles.contactRow}>
           <Text style={styles.contactItem}>{personalDetails.email}</Text>
-          <Text style={styles.contactSeparator}>•</Text>
+          <Text style={styles.separator}>•</Text>
           <Text style={styles.contactItem}>{personalDetails.phone}</Text>
-          <Text style={styles.contactSeparator}>•</Text>
+          <Text style={styles.separator}>•</Text>
           <Text style={styles.contactItem}>{personalDetails.location}</Text>
         </View>
         {personalDetails.linkedIn && (
@@ -29,7 +35,7 @@ export function ExecutiveTemplate({ data, aiBullets }: ExecutiveTemplateProps) {
         )}
       </View>
 
-      {/* Executive Summary */}
+      {/* Executive Summary - Premium label for leadership roles */}
       {personalDetails.professionalSummary && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Executive Summary</Text>
@@ -37,21 +43,19 @@ export function ExecutiveTemplate({ data, aiBullets }: ExecutiveTemplateProps) {
         </View>
       )}
 
-      {/* Professional Experience */}
+      {/* Professional Experience - Premium formatting */}
       {workExperience.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Professional Experience</Text>
           {workExperience.map((exp) => (
             <View key={exp.id} style={styles.experienceItem}>
               <View style={styles.experienceHeader}>
-                <View>
-                  <Text style={styles.jobTitle}>{exp.title}</Text>
-                  <Text style={styles.company}>{exp.company}</Text>
-                </View>
+                <Text style={styles.jobTitle}>{exp.title}</Text>
                 <Text style={styles.dates}>
-                  {exp.startDate} — {exp.isCurrentRole ? 'Present' : exp.endDate}
+                  {exp.startDate} - {exp.isCurrentRole ? 'Present' : exp.endDate}
                 </Text>
               </View>
+              <Text style={styles.company}>{exp.company}</Text>
               {aiBullets[exp.id]?.length > 0 && (
                 <View style={styles.bulletList}>
                   {aiBullets[exp.id].map((bullet, idx) => (
@@ -67,111 +71,97 @@ export function ExecutiveTemplate({ data, aiBullets }: ExecutiveTemplateProps) {
         </View>
       )}
 
-      {/* Education */}
+      {/* Education - Refined styling */}
       {education.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
           {education.map((edu) => (
             <View key={edu.id} style={styles.educationItem}>
               <View style={styles.experienceHeader}>
-                <View>
-                  <Text style={styles.degree}>
-                    {edu.degree}{edu.fieldOfStudy ? `, ${edu.fieldOfStudy}` : ''}
-                  </Text>
-                  <Text style={styles.institution}>{edu.institution}</Text>
-                </View>
+                <Text style={styles.degree}>
+                  {edu.degree} in {edu.fieldOfStudy}
+                </Text>
                 <Text style={styles.dates}>
-                  {edu.startDate} — {edu.endDate}
+                  {edu.startDate} - {edu.endDate}
                 </Text>
               </View>
+              <Text style={styles.institution}>{edu.institution}</Text>
               {edu.honors && <Text style={styles.honors}>{edu.honors}</Text>}
+              {edu.gpa && <Text style={styles.gpa}>GPA: {edu.gpa}</Text>}
             </View>
           ))}
         </View>
       )}
 
-      {/* Core Competencies (Skills) */}
+      {/* Core Competencies - Executive label for skills */}
       {skills.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Core Competencies</Text>
-          <View style={styles.skillsGrid}>
-            {skills.map((skill, idx) => (
-              <Text key={idx} style={styles.skillItem}>
-                {skill}
-              </Text>
-            ))}
-          </View>
+          <Text style={styles.skillsText}>{skills.join('   •   ')}</Text>
         </View>
       )}
 
-      {/* Projects */}
-      {projects.length > 0 && (
+      {/* Certifications & Credentials */}
+      {certifications.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Key Projects</Text>
-          {projects.map((project) => (
-            <View key={project.id} style={styles.projectItem}>
-              <Text style={styles.projectName}>{project.name}</Text>
-              <Text style={styles.projectDesc}>{project.description}</Text>
+          <Text style={styles.sectionTitle}>Certifications & Credentials</Text>
+          {certifications.map((cert) => (
+            <View key={cert.id} style={styles.certItem}>
+              <Text style={styles.certName}>{cert.name}</Text>
+              <Text style={styles.certIssuer}>
+                {cert.issuer}
+                {cert.date && ` • ${cert.date}`}
+              </Text>
             </View>
           ))}
         </View>
       )}
 
-      {/* Certifications & Languages in two columns */}
-      {(certifications.length > 0 || languages.length > 0) && (
-        <View style={styles.twoColumnSection}>
-          {certifications.length > 0 && (
-            <View style={styles.halfColumn}>
-              <Text style={styles.sectionTitle}>Certifications</Text>
-              {certifications.map((cert) => (
-                <View key={cert.id} style={styles.certItem}>
-                  <Text style={styles.certName}>{cert.name}</Text>
-                  <Text style={styles.certIssuer}>
-                    {cert.issuer}{cert.date ? ` • ${cert.date}` : ''}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
-          {languages.length > 0 && (
-            <View style={styles.halfColumn}>
-              <Text style={styles.sectionTitle}>Languages</Text>
-              {languages.map((lang) => (
-                <Text key={lang.id} style={styles.languageItem}>
-                  {lang.name} — {lang.proficiency}
-                </Text>
-              ))}
-            </View>
-          )}
+      {/* Languages */}
+      {languages.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Languages</Text>
+          <Text style={styles.skillsText}>
+            {languages.map((lang) => `${lang.name} (${lang.proficiency})`).join('   •   ')}
+          </Text>
         </View>
       )}
     </View>
   )
 }
 
+// Styles for the Executive Edge template
 const styles = StyleSheet.create({
+  // Main container - refined serif typography
   container: {
     fontFamily: 'Times-Roman',
     fontSize: 10,
-    color: '#2c2c2c',
+    color: '#2C2C2C',
   },
+
+  // Header styles - elegant centered layout
   header: {
     textAlign: 'center',
-    marginBottom: 24,
-    paddingBottom: 16,
+    marginBottom: 20,
   },
   name: {
-    fontSize: 26,
+    fontSize: 28,
     fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
-    letterSpacing: 2,
     textTransform: 'uppercase',
-    marginBottom: 8,
+    letterSpacing: 4,
+    color: '#2C2C2C',
+    marginBottom: 6,
+  },
+  title: {
+    fontSize: 12,
+    color: '#666666',
+    marginBottom: 10,
+    letterSpacing: 1,
   },
   headerDivider: {
     height: 1,
-    backgroundColor: '#8b7355',
-    marginHorizontal: 120,
+    backgroundColor: '#8B7355', // Gold/bronze accent
+    marginHorizontal: 100,
     marginBottom: 12,
   },
   contactRow: {
@@ -183,146 +173,127 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: '#4a4a4a',
   },
-  contactSeparator: {
+  separator: {
     fontSize: 9,
-    color: '#8b7355',
-    marginHorizontal: 8,
+    color: '#8B7355', // Gold accent
+    marginHorizontal: 10,
   },
   link: {
     fontSize: 9,
-    color: '#4a4a4a',
+    color: '#8B7355', // Gold accent
     textDecoration: 'none',
   },
+
+  // Section styles - refined with gold accents
   section: {
-    marginBottom: 18,
+    marginBottom: 14,
   },
   sectionTitle: {
     fontSize: 11,
     fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
     textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    marginBottom: 10,
-    paddingBottom: 4,
+    letterSpacing: 2,
+    color: '#2C2C2C',
     borderBottomWidth: 0.5,
-    borderBottomColor: '#8b7355',
+    borderBottomColor: '#8B7355', // Gold underline
+    paddingBottom: 4,
+    marginBottom: 10,
   },
+
+  // Summary styles - generous spacing
   summaryText: {
     fontSize: 10,
-    color: '#3a3a3a',
     lineHeight: 1.6,
+    color: '#4a4a4a',
     textAlign: 'justify',
   },
+
+  // Experience styles
   experienceItem: {
-    marginBottom: 14,
+    marginBottom: 12,
   },
   experienceHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 6,
   },
   jobTitle: {
     fontSize: 11,
     fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
-  },
-  company: {
-    fontSize: 10,
-    color: '#4a4a4a',
-    fontFamily: 'Times-Italic',
+    color: '#2C2C2C',
   },
   dates: {
     fontSize: 9,
     color: '#666666',
-    textAlign: 'right',
+    fontFamily: 'Times-Italic',
+  },
+  company: {
+    fontSize: 10,
+    color: '#4a4a4a',
+    marginBottom: 6,
   },
   bulletList: {
-    marginTop: 6,
-    paddingLeft: 4,
+    marginTop: 4,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   bullet: {
     fontSize: 6,
-    color: '#8b7355',
+    color: '#8B7355', // Gold square bullet
     marginRight: 8,
     marginTop: 2,
   },
   bulletText: {
     fontSize: 10,
-    color: '#3a3a3a',
     flex: 1,
     lineHeight: 1.5,
+    color: '#4a4a4a',
   },
+
+  // Education styles
   educationItem: {
     marginBottom: 10,
   },
   degree: {
     fontSize: 11,
     fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
+    color: '#2C2C2C',
   },
   institution: {
     fontSize: 10,
     color: '#4a4a4a',
-    fontFamily: 'Times-Italic',
   },
   honors: {
     fontSize: 9,
     color: '#666666',
+    fontFamily: 'Times-Italic',
     marginTop: 2,
   },
-  skillsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  skillItem: {
+  gpa: {
     fontSize: 9,
-    color: '#3a3a3a',
-    backgroundColor: '#f5f5f5',
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    borderRadius: 2,
+    color: '#666666',
   },
-  projectItem: {
-    marginBottom: 8,
-  },
-  projectName: {
+
+  // Skills styles - refined spacing
+  skillsText: {
     fontSize: 10,
-    fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
-  },
-  projectDesc: {
-    fontSize: 9,
     color: '#4a4a4a',
-    lineHeight: 1.4,
+    lineHeight: 1.6,
   },
-  twoColumnSection: {
-    flexDirection: 'row',
-    gap: 24,
-  },
-  halfColumn: {
-    flex: 1,
-  },
+
+  // Certification styles
   certItem: {
     marginBottom: 6,
   },
   certName: {
     fontSize: 10,
     fontFamily: 'Times-Bold',
-    color: '#1a1a1a',
+    color: '#2C2C2C',
   },
   certIssuer: {
     fontSize: 9,
     color: '#666666',
-  },
-  languageItem: {
-    fontSize: 10,
-    color: '#3a3a3a',
-    marginBottom: 4,
   },
 })

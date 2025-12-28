@@ -1,19 +1,25 @@
 import { View, Text, Link, StyleSheet } from '@react-pdf/renderer'
 import type { ResumeData } from '@/types/resume'
 
-interface ModernTemplateProps {
+// Heritage Template - Classic/Traditional Style
+// Features: Serif typography, centered header, gold accents, formal appearance
+
+interface HeritageTemplateProps {
   data: ResumeData
   aiBullets: Record<string, string[]>
 }
 
-export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
+export function HeritageTemplate({ data, aiBullets }: HeritageTemplateProps) {
+  // Extract all the data we need from the resume
   const { personalDetails, workExperience, education, skills, certifications, languages } = data
 
   return (
     <View style={styles.container}>
-      {/* Header Section */}
+      {/* Header Section - Centered with name and contact info */}
       <View style={styles.header}>
         <Text style={styles.name}>{personalDetails.fullName}</Text>
+        {personalDetails.title && <Text style={styles.title}>{personalDetails.title}</Text>}
+        <View style={styles.divider} />
         <View style={styles.contactRow}>
           <Text style={styles.contactItem}>{personalDetails.email}</Text>
           <Text style={styles.separator}>|</Text>
@@ -26,21 +32,20 @@ export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
             {personalDetails.linkedIn.replace('https://', '')}
           </Link>
         )}
-        <View style={styles.accentLine} />
       </View>
 
-      {/* Professional Summary */}
+      {/* Professional Summary - First section after header */}
       {personalDetails.professionalSummary && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>PROFESSIONAL SUMMARY</Text>
+          <Text style={styles.sectionTitle}>Professional Summary</Text>
           <Text style={styles.summaryText}>{personalDetails.professionalSummary}</Text>
         </View>
       )}
 
-      {/* Work Experience */}
+      {/* Work Experience - Listed from latest to oldest */}
       {workExperience.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>EXPERIENCE</Text>
+          <Text style={styles.sectionTitle}>Professional Experience</Text>
           {workExperience.map((exp) => (
             <View key={exp.id} style={styles.experienceItem}>
               <View style={styles.experienceHeader}>
@@ -65,10 +70,10 @@ export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
         </View>
       )}
 
-      {/* Education */}
+      {/* Education - Listed from latest to oldest */}
       {education.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>EDUCATION</Text>
+          <Text style={styles.sectionTitle}>Education</Text>
           {education.map((edu) => (
             <View key={edu.id} style={styles.educationItem}>
               <View style={styles.experienceHeader}>
@@ -90,15 +95,15 @@ export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
       {/* Skills */}
       {skills.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>SKILLS</Text>
-          <Text style={styles.skillsText}>{skills.join(' • ')}</Text>
+          <Text style={styles.sectionTitle}>Skills</Text>
+          <Text style={styles.skillsText}>{skills.join('  •  ')}</Text>
         </View>
       )}
 
-      {/* Certifications */}
+      {/* Certifications - Optional section */}
       {certifications.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>CERTIFICATIONS</Text>
+          <Text style={styles.sectionTitle}>Certifications</Text>
           {certifications.map((cert) => (
             <View key={cert.id} style={styles.certItem}>
               <Text style={styles.certName}>{cert.name}</Text>
@@ -111,12 +116,12 @@ export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
         </View>
       )}
 
-      {/* Languages */}
+      {/* Languages - Optional section */}
       {languages.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>LANGUAGES</Text>
+          <Text style={styles.sectionTitle}>Languages</Text>
           <Text style={styles.skillsText}>
-            {languages.map((lang) => `${lang.name} (${lang.proficiency})`).join(' • ')}
+            {languages.map((lang) => `${lang.name} (${lang.proficiency})`).join('  •  ')}
           </Text>
         </View>
       )}
@@ -124,21 +129,37 @@ export function ModernTemplate({ data, aiBullets }: ModernTemplateProps) {
   )
 }
 
+// Styles for the Heritage template
 const styles = StyleSheet.create({
+  // Main container - serif font for classic feel
   container: {
-    fontFamily: 'Helvetica',
+    fontFamily: 'Times-Roman',
     fontSize: 10,
-    color: '#1a1a1a',
+    color: '#000000',
   },
+
+  // Header styles - centered layout
   header: {
-    marginBottom: 16,
     textAlign: 'center',
+    marginBottom: 16,
   },
   name: {
-    fontSize: 22,
-    fontFamily: 'Helvetica-Bold',
-    color: '#1a1a1a',
-    marginBottom: 6,
+    fontSize: 20,
+    fontFamily: 'Times-Bold',
+    marginBottom: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+  },
+  title: {
+    fontSize: 11,
+    color: '#4a4a4a',
+    marginBottom: 8,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#8B7355', // Gold accent
+    marginHorizontal: 120,
+    marginBottom: 10,
   },
   contactRow: {
     flexDirection: 'row',
@@ -147,43 +168,44 @@ const styles = StyleSheet.create({
   },
   contactItem: {
     fontSize: 9,
-    color: '#666666',
+    color: '#333333',
   },
   separator: {
     fontSize: 9,
-    color: '#999999',
-    marginHorizontal: 6,
+    color: '#8B7355', // Gold accent
+    marginHorizontal: 8,
   },
   link: {
     fontSize: 9,
-    color: '#2563eb',
+    color: '#8B7355', // Gold accent
     textDecoration: 'none',
   },
-  accentLine: {
-    height: 2,
-    backgroundColor: '#2563eb',
-    marginTop: 10,
-    marginHorizontal: 150,
-  },
+
+  // Section styles
   section: {
     marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 11,
-    fontFamily: 'Helvetica-Bold',
-    color: '#1a1a1a',
+    fontFamily: 'Times-Bold',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    marginBottom: 6,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
+    color: '#000000',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#8B7355', // Gold underline
     paddingBottom: 3,
+    marginBottom: 8,
   },
+
+  // Summary styles
   summaryText: {
-    fontSize: 9,
-    color: '#4a4a4a',
+    fontSize: 10,
     lineHeight: 1.5,
+    color: '#333333',
+    textAlign: 'justify',
   },
+
+  // Experience styles
   experienceItem: {
     marginBottom: 10,
   },
@@ -193,16 +215,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   jobTitle: {
-    fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
-    color: '#1a1a1a',
+    fontSize: 11,
+    fontFamily: 'Times-Bold',
+    color: '#000000',
   },
   dates: {
     fontSize: 9,
     color: '#666666',
   },
   company: {
-    fontSize: 9,
+    fontSize: 10,
+    fontFamily: 'Times-Italic',
     color: '#4a4a4a',
     marginBottom: 4,
   },
@@ -214,49 +237,56 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   bullet: {
-    fontSize: 9,
-    color: '#2563eb',
+    fontSize: 10,
+    color: '#8B7355', // Gold bullet
     marginRight: 6,
   },
   bulletText: {
-    fontSize: 9,
-    color: '#4a4a4a',
+    fontSize: 10,
     flex: 1,
     lineHeight: 1.4,
+    color: '#333333',
   },
+
+  // Education styles
   educationItem: {
     marginBottom: 8,
   },
   degree: {
-    fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
-    color: '#1a1a1a',
+    fontSize: 11,
+    fontFamily: 'Times-Bold',
+    color: '#000000',
   },
   institution: {
-    fontSize: 9,
+    fontSize: 10,
+    fontFamily: 'Times-Italic',
     color: '#4a4a4a',
   },
   honors: {
     fontSize: 9,
     color: '#666666',
-    fontFamily: 'Helvetica-Oblique',
+    marginTop: 2,
   },
   gpa: {
     fontSize: 9,
     color: '#666666',
   },
+
+  // Skills styles
   skillsText: {
-    fontSize: 9,
-    color: '#4a4a4a',
+    fontSize: 10,
+    color: '#333333',
     lineHeight: 1.5,
   },
+
+  // Certification styles
   certItem: {
     marginBottom: 4,
   },
   certName: {
-    fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
-    color: '#1a1a1a',
+    fontSize: 10,
+    fontFamily: 'Times-Bold',
+    color: '#000000',
   },
   certIssuer: {
     fontSize: 9,

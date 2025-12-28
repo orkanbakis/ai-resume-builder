@@ -7,6 +7,7 @@ import type {
   Certification,
   Language,
   Project,
+  Award,
   Industry,
   JobLevel,
   TemplateId,
@@ -29,6 +30,7 @@ interface ResumeState {
   certifications: Certification[]
   languages: Language[]
   projects: Project[]
+  awards: Award[]
 
   // AI Generated Content
   aiBullets: Record<string, string[]>
@@ -73,6 +75,10 @@ interface ResumeState {
   updateProject: (id: string, project: Partial<Project>) => void
   removeProject: (id: string) => void
 
+  addAward: (award: Award) => void
+  updateAward: (id: string, award: Partial<Award>) => void
+  removeAward: (id: string) => void
+
   // Actions - AI Content
   setAIBullets: (expId: string, bullets: string[]) => void
   updateAIBullet: (expId: string, index: number, text: string) => void
@@ -87,10 +93,12 @@ interface ResumeState {
 
 const initialPersonalDetails: PersonalDetails = {
   fullName: '',
+  title: '',
   email: '',
   phone: '',
   location: '',
   linkedIn: '',
+  website: '',
   professionalSummary: '',
 }
 
@@ -104,9 +112,10 @@ const initialState = {
   certifications: [] as Certification[],
   languages: [] as Language[],
   projects: [] as Project[],
+  awards: [] as Award[],
   aiBullets: {} as Record<string, string[]>,
   aiSummary: null as string | null,
-  selectedTemplate: 'modern' as TemplateId,
+  selectedTemplate: 'clarity' as TemplateId,
 }
 
 export const useResumeStore = create<ResumeState>()(
@@ -239,6 +248,24 @@ export const useResumeStore = create<ResumeState>()(
           projects: state.projects.filter((p) => p.id !== id),
         })),
 
+      // Awards
+      addAward: (award) =>
+        set((state) => ({
+          awards: [...state.awards, award],
+        })),
+
+      updateAward: (id, award) =>
+        set((state) => ({
+          awards: state.awards.map((a) =>
+            a.id === id ? { ...a, ...award } : a
+          ),
+        })),
+
+      removeAward: (id) =>
+        set((state) => ({
+          awards: state.awards.filter((a) => a.id !== id),
+        })),
+
       // AI Content
       setAIBullets: (expId, bullets) =>
         set((state) => ({
@@ -274,6 +301,7 @@ export const useResumeStore = create<ResumeState>()(
         certifications: state.certifications,
         languages: state.languages,
         projects: state.projects,
+        awards: state.awards,
         aiBullets: state.aiBullets,
         aiSummary: state.aiSummary,
         selectedTemplate: state.selectedTemplate,
